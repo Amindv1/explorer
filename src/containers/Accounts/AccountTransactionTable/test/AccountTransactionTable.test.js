@@ -21,7 +21,9 @@ const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'
 
 describe('AccountTransactionTable', () => {
   const createWrapper = (
-    state = {},
+    state = {
+      hasToken: false,
+    },
     loadAccountTransactionsImpl = () => () => {},
   ) => {
     loadAccountTransactions.mockImplementation(loadAccountTransactionsImpl)
@@ -30,7 +32,10 @@ describe('AccountTransactionTable', () => {
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <Router>
-            <AccountTransactionTable accountId={TEST_ACCOUNT_ID} />
+            <AccountTransactionTable
+              accountId={TEST_ACCOUNT_ID}
+              hasTokensColumn={state.hasToken}
+            />
           </Router>
         </Provider>
       </I18nextProvider>,
@@ -78,6 +83,26 @@ describe('AccountTransactionTable', () => {
       })
     })
 
+    expect(component.find('.col-token').length).toBe(0)
+    expect(component.find('.load-more-btn').length).toBe(1)
+    expect(component.find('.transaction-table').length).toBe(1)
+    expect(component.find('.transaction-li.transaction-li-header').length).toBe(
+      1,
+    )
+    expect(component.find(Link).length).toBe(40)
+    done()
+  })
+
+  it('renders dynamic content with transaction data and token column', (done) => {
+    const component = createWrapper({ hasToken: true }, () => (dispatch) => {
+      dispatch({ type: actionTypes.FINISHED_LOADING_ACCOUNT_TRANSACTIONS })
+      dispatch({
+        type: actionTypes.ACCOUNT_TRANSACTIONS_LOAD_SUCCESS,
+        data: TEST_TRANSACTIONS_DATA,
+      })
+    })
+
+    expect(component.find('.col-token').length).toBeGreaterThan(0)
     expect(component.find('.load-more-btn').length).toBe(1)
     expect(component.find('.transaction-table').length).toBe(1)
     expect(component.find('.transaction-li.transaction-li-header').length).toBe(

@@ -389,7 +389,13 @@
   "xchain_create_account_attestation": "Create Account Attestation",
   "amm_lp_token_balance": "LP Token Balance",
   "amm_token_balance": "Token Balance",
-  "amm_trading_fee": "Trading Fee",
+  "trading_fee": "Trading Fee",
   "amm_tvl": "TVL",
-  "amm_account_address": "Account Address"
+  "amm_account_address": "Account Address",
+  "asset1": "Asset 1",
+  "asset2": "Asset 2",
+  "effective_price": "Effective Price",
+  "account_id": "Account ID",
+  "lp_tokens": "LP Tokens",
+  "min_slot_price": "Minimum Slot Price"
 }
